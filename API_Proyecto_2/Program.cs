@@ -19,7 +19,6 @@ builder.Services.AddScoped<IDispatcherService, DispatcherService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 
-
 builder.Services.AddControllers();
 
 //Implementación de JWT

@@ -6,17 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Front_Proyecto_2.Controllers
 {
-    public class DispatcherController : Controller
+    public class ClientController : Controller
     {
         private readonly IProtectionRoutesService _protectionRoutesService;
-        private IDispatcherService _dispatcherService;
-        public DispatcherController(IProtectionRoutesService protectionRoutesService, IDispatcherService dispatcherService)
+        private IClientService _clientService;
+
+        public ClientController(IProtectionRoutesService protectionRoutesService, IClientService clientService)
         {
             _protectionRoutesService = protectionRoutesService;
-            _dispatcherService = dispatcherService;
+            _clientService = clientService;
         }
 
-        // GET: DispatcherController
+        // GET: ClientController
         public async Task<ActionResult> Index()
         {
             if (!_protectionRoutesService.ProtectAction())
@@ -24,10 +25,10 @@ namespace Front_Proyecto_2.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
-            List<Dispatcher> Model = null;
-            try 
+            List<Client> Model = new List<Client>();
+            try
             {
-                var response = await this._dispatcherService.GetAllDispatchers();
+                var response = await this._clientService.GetAllClients();
                 Model = response.Data;
             }
             catch (Exception ex)
@@ -39,38 +40,31 @@ namespace Front_Proyecto_2.Controllers
             return View(Model);
         }
 
-        // GET: DispatcherController/Details/5
+        // GET: ClientController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: DispatcherController/Create
+        // GET: ClientController/Create
         public ActionResult Create()
         {
-            if (!_protectionRoutesService.ProtectAction())
-            {
-                return RedirectToAction("Login", "Login");
-            }
             return View();
         }
 
-        // POST: DispatcherController/Create
+        // POST: ClientController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(IFormCollection collection)
         {
-            if (!_protectionRoutesService.ProtectAction())
-            {
-                return RedirectToAction("Login", "Login");
-            }
-
             try
             {
-                Dispatcher dispatcher = new Dispatcher();
-                dispatcher.Name = collection["Name"];
+                Client client = new Client();
+                client.Name = collection["Name"];
+                client.ClientPersonalId = Convert.ToInt32(collection["ClientPersonalId"]);
+                client.Birthday = Convert.ToDateTime(collection["Birthday"]);
 
-                var response = await this._dispatcherService.AddDispatcher(dispatcher);
+                var response = await this._clientService.AddClient(client);
                 if (response != null)
                 {
                     if (response.Success == true)
@@ -95,13 +89,13 @@ namespace Front_Proyecto_2.Controllers
             }
         }
 
-        // GET: DispatcherController/Edit/5
+        // GET: ClientController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: DispatcherController/Edit/5
+        // POST: ClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -116,13 +110,13 @@ namespace Front_Proyecto_2.Controllers
             }
         }
 
-        // GET: DispatcherController/Delete/5
+        // GET: ClientController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: DispatcherController/Delete/5
+        // POST: ClientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

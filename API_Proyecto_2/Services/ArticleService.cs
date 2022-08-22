@@ -18,7 +18,16 @@ namespace API_Proyecto_2.Services
         public async Task<ServiceResponse<Article>> AddArticle(Article article)
         {
             var response = new ServiceResponse<Article>();
-
+            long lastCode = 0;
+            try
+            {
+                lastCode = Convert.ToInt64(this.appDbContext.Articles.Max(d => d.TrackingId)) + 1;
+            }
+            catch (Exception ex)
+            {
+                lastCode = 100000000000000000;
+            }
+            article.TrackingId = Convert.ToString(lastCode);
             try
             {
                 await this.appDbContext.Articles.AddAsync(article);

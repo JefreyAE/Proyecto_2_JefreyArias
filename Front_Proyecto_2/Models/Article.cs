@@ -10,10 +10,11 @@
         public string Description { get; set; }
         public int ClientId { get; set; }
         public int DispatcherId { get; set; }
+        public string State { get; set; }
 
         public Article() { }
 
-        public Article(int id, string trackingId, DateTime admissionDate, double price, double weight, string description, int clientId, int dispatcherId)
+        public Article(int id, string trackingId, DateTime admissionDate, double price, double weight, string description, int clientId, int dispatcherId, string state)
         {
             Id = id;
             TrackingId = trackingId;
@@ -23,6 +24,7 @@
             Description = description;
             ClientId = clientId;
             DispatcherId = dispatcherId;
+            State = state;
         }
     }
 }

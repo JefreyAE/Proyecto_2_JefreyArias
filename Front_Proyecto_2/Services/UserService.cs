@@ -31,17 +31,37 @@ namespace Front_Proyecto_2.Services
             return result;
         }
 
-        public Task<bool> DeleteUser(int id)
+        public async Task<ServiceResponse<bool>> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.DeleteAsync("api/Client/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<bool>>(json_response);
+
+            return result;
         }
 
-        public Task<User> GetUser(int id)
+        public async Task<ServiceResponse<List<User>>> GetAllUsers()
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("api/User/allUsers/");
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<List<User>>>(json_response);
+
+            return result;
+        }
+
+        public async Task<ServiceResponse<User>> GetUser(int id)
+        {
+            var response = await _httpClient.GetAsync("api/Client/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<User>>(json_response);
+
+            return result;
         }   
 
-        public Task<User> UpdateUser(User user)
+        public async Task<ServiceResponse<User>> UpdateUser(User user)
         {
             throw new NotImplementedException();
         }

@@ -1,0 +1,77 @@
+﻿@model Front_Proyecto_2.Models.Article
+
+@{
+    ViewData["Title"] = "Registro de artículos";
+    List<Client> clients = ViewBag.clientList;
+    List<Dispatcher> dispatchers = ViewBag.dispatcherList;
+}
+
+<h1>Registro de artículos</h1>
+
+<h4>Ingresa los datos del artículo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (ViewData["Message_error"] != null)
+        {
+            <label class="message_error alert alert-error">@ViewData["Message_error"]</label>     
+        }
+         @if (ViewData["Message_success"] != null)
+        {
+            <label class="message_success alert alert-success">@ViewData["Message_success"]</label>     
+        }
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
+            <div class="form-group">
+                <label asp-for="AdmissionDate" class="control-label">Fecha de ingreso</label>
+                <input type="date" asp-for="AdmissionDate" class="form-control" />
+                <span asp-validation-for="AdmissionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Precio</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label">Peso</label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Descripción del artículo</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientId" class="control-label">Código del cliente</label>
+                <select asp-for="ClientId" class="form-control">
+                @foreach(Client client in clients){
+                    <option value="@client.Id">@client.Name - @client.ClientPersonalId</option>
+                }
+                </select>
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DispatcherId" class="control-label">Código del transportista</label>
+                <select asp-for="DispatcherId" class="form-control">
+                    @foreach(Dispatcher dispatcher in dispatchers){
+                    <option value="@dispatcher.Id">@dispatcher.Name - @dispatcher.Code</option>
+                    }
+                </select>
+                <span asp-validation-for="DispatcherId" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Registrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Index">Regresar a la lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

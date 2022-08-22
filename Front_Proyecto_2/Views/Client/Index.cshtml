@@ -1,24 +1,30 @@
-﻿@model IEnumerable<Front_Proyecto_2.Models.Dispatcher>
+﻿@model IEnumerable<Front_Proyecto_2.Models.Client>
 
 @{
-    ViewData["Title"] = "Transportistas";
+    ViewData["Title"] = "Lista de clientes";
 }
 
-<h1>Listado de transportistas</h1>
+<h1>Listado de clientes</h1>
 
 <p>
-    <a asp-action="Create">Agregar nuevo</a>
+    <a asp-action="Create">Registrar cliente</a>
 </p>
 <table class="table">
     <thead>
-        <tr> 
+        <tr>
             <th>
                 Nombre
             </th>
             <th>
                 Código
             </th>
-            <th></th>
+            <th>
+                Cédula
+            </th>
+            <th>
+                Fecha de nacimiento
+            </th>
+            <!--<th></th>-->
         </tr>
     </thead>
     <tbody>
@@ -30,6 +36,12 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientPersonalId)
+                        </td>
+                        <td>
+                            @item.Birthday.ToShortDateString()
                         </td>
                         <!--<td>
                             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

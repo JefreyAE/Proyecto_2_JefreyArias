@@ -31,9 +31,14 @@ namespace Front_Proyecto_2.Services
             return result;
         }
 
-        public Task<ServiceResponse<bool>> DeleteDispatcher(int id)
+        public async Task<ServiceResponse<bool>> DeleteDispatcher(int id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.DeleteAsync("api/Dispatcher/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<bool>>(json_response);
+
+            return result;
         }
 
         public async Task<ServiceResponse<List<Dispatcher>>> GetAllDispatchers()
@@ -46,9 +51,14 @@ namespace Front_Proyecto_2.Services
             return result;
         }
 
-        public Task<ServiceResponse<Dispatcher>> GetDispatcher(int id)
+        public async Task<ServiceResponse<Dispatcher>> GetDispatcher(int id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("api/Dispatcher/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<Dispatcher>>(json_response);
+
+            return result;
         }
 
         public Task<ServiceResponse<Dispatcher>> UpdateDispatcher(Dispatcher dispatcher)

@@ -18,7 +18,16 @@ namespace API_Proyecto_2.Services
         public async Task<ServiceResponse<Client>> AddClient(Client client)
         {
             var response = new ServiceResponse<Client>();
-
+            int lastCode = 0;
+            try
+            {
+                lastCode = this.appDbContext.Clients.Max(d => d.Code) + 1;
+            }
+            catch (Exception ex)
+            {
+                lastCode = 10000;
+            }
+            client.Code = lastCode;
             try
             {
                 await this.appDbContext.Clients.AddAsync(client);

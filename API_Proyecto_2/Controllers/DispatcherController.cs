@@ -1,6 +1,7 @@
 ﻿using API_Proyecto_2.Helpers;
 using API_Proyecto_2.Interfaces;
 using API_Proyecto_2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

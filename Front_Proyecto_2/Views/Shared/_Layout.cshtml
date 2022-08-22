@@ -32,10 +32,22 @@
                         @if (TokenKeeper.Token != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dispatcher" asp-action="Create">Registrar Transportista</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Dispatcher" asp-action="Create">Registrar Transportistas</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dispatcher" asp-action="Index">Transportistas</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Dispatcher" asp-action="Index">Lista de Transportistas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Create">Registrar Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Lista de Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Create">Registrar Artículos</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">Lista de Artículos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Login/Logout" >Cerrar sesión</a>
