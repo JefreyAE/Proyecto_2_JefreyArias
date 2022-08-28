@@ -13,5 +13,7 @@ namespace Front_Proyecto_2.Interfaces
         Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode);
         Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode);
         Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(string date1, string date2);
+        Task<ServiceResponse<List<Article>>> GetCustodyArticles();
+        Task<ServiceResponse<List<Article>>> GetWithdrawArticles();
     }
 }

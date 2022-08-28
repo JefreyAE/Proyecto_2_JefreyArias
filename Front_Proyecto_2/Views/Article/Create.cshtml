@@ -20,7 +20,7 @@
         {
             <label class="message_success alert alert-success">@ViewData["Message_success"]</label>     
         }
-        <form asp-action="Create">
+        <form id="form_article" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
             <div class="form-group">
                 <label asp-for="AdmissionDate" class="control-label">Fecha de ingreso</label>
@@ -62,7 +62,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Registrar" class="btn btn-primary" />
+                <input type="submit" onclick="return confirmar('¿Deseas registrar el articulo?')" value="Registrar" class="btn btn-primary" />
             </div>
         </form>
     </div>

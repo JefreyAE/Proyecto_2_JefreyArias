@@ -13,5 +13,7 @@ namespace API_Proyecto_2.Interfaces
         Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode);
         Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode);
         Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(RecallsDates recallDates);
+        Task<ServiceResponse<List<Article>>> GetCustodyArticles();
+        Task<ServiceResponse<List<Article>>> GetWithdrawArticles();
     }
 }

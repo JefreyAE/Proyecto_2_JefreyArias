@@ -4,7 +4,7 @@
     ViewData["Title"] = "Lista de clientes";
 }
 
-<h1>Listado de clientes</h1>
+<h1>Empresa X - Listado de clientes - @ViewData["UserName"]</h1>
 
 <p>
     <a asp-action="Create">Registrar cliente</a>
@@ -28,27 +28,27 @@
         </tr>
     </thead>
     <tbody>
-        @if(Model != null)
+        @if(Model != null){
             @foreach (var item in Model) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Code)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ClientPersonalId)
-                        </td>
-                        <td>
-                            @item.Birthday.ToShortDateString()
-                        </td>
-                        <!--<td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>-->
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientPersonalId)
+                    </td>
+                    <td>
+                        @item.Birthday.ToShortDateString()
+                    </td>
+                    <!--<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>-->
+                </tr>
             }
         }
     </tbody>

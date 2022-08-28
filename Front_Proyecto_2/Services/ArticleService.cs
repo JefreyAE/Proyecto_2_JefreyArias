@@ -94,5 +94,25 @@ namespace Front_Proyecto_2.Services
             var result = JsonConvert.DeserializeObject<ServiceResponse<List<Article>>>(json_response);
             return result;
         }
+
+        public async Task<ServiceResponse<List<Article>>> GetCustodyArticles()
+        {
+            var response = await _httpClient.GetAsync("api/Article/custodyArticles/");
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<List<Article>>>(json_response);
+
+            return result;
+        }
+
+        public async Task<ServiceResponse<List<Article>>> GetWithdrawArticles()
+        {
+            var response = await _httpClient.GetAsync("api/Article/withdrawArticles/");
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<List<Article>>>(json_response);
+
+            return result;
+        }
     }
 }

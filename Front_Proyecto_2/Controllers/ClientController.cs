@@ -25,6 +25,7 @@ namespace Front_Proyecto_2.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+            ViewData["UserName"] = TokenKeeper.User.Name;
             List<Client> Model = new List<Client>();
             try
             {

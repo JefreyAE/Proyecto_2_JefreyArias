@@ -22,17 +22,32 @@ namespace Front_Proyecto_2.Controllers
         }
 
         // GET: ArticleController
-        public async Task<ActionResult> Index()
+        [HttpGet("{type}")]
+        public async Task<ActionResult> Index(string type)
         {
             if (!_protectionRoutesService.ProtectAction())
             {
                 return RedirectToAction("Login", "Login");
             }
-
+            ViewData["UserName"] = TokenKeeper.User.Name;
             List<Article> Model = new List<Article>();
             try
             {
-                var response = await this._articleService.GetAllArticles();
+                var response = new ServiceResponse<List<Article>>();
+                if(type == "custody")
+                {
+                    response = await this._articleService.GetCustodyArticles();
+                }
+                if (type == "all")
+                {
+                    response = await this._articleService.GetAllArticles();
+                }
+                if (type == "withdraw")
+                {
+                    response = await this._articleService.GetWithdrawArticles();
+                }
+
+
                 if (response.Data != null)
                 {
                     Model = response.Data;
@@ -73,6 +88,7 @@ namespace Front_Proyecto_2.Controllers
 
         public async Task loadSelectValues()
         {
+            ViewData["UserName"] = TokenKeeper.User.Name;
             var responseDispatcher = await this._dispatcherService.GetAllDispatchers();
             List<Dispatcher> dispatcherList = new List<Dispatcher>();
             if (responseDispatcher.Data != null)
@@ -149,6 +165,7 @@ namespace Front_Proyecto_2.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
+            ViewData["UserName"] = TokenKeeper.User.Name;
             return View();
         }
 
@@ -173,6 +190,7 @@ namespace Front_Proyecto_2.Controllers
                     {
                         ViewData["Message_success"] = "Los datos se han cargado correctamente.";
                         HttpContext.Session.SetString("clientCode", Convert.ToString(clientCode));
+                        ViewData["UserName"] = TokenKeeper.User.Name;
                         ViewBag.articles = response.Data;
                         return View();
                     }
@@ -199,10 +217,11 @@ namespace Front_Proyecto_2.Controllers
                 return RedirectToAction("Login", "Login");
             }
 
+            ViewData["UserName"] = TokenKeeper.User.Name;
             long clientCode = Convert.ToInt64(HttpContext.Session.GetString("clientCode"));
             var response = await this._articleService.WithdrawArticlesByClientCode(clientCode);
 
-            return RedirectToAction("Collect", "Article");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> RecallSearch()
@@ -211,7 +230,7 @@ namespace Front_Proyecto_2.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
-
+            ViewData["UserName"] = TokenKeeper.User.Name;
             return View();
         }
 
@@ -220,6 +239,7 @@ namespace Front_Proyecto_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RecallSearch(IFormCollection collection)
         {
+            ViewData["UserName"] = TokenKeeper.User.Name;
             if (!_protectionRoutesService.ProtectAction())
             {
                 return RedirectToAction("Login", "Login");

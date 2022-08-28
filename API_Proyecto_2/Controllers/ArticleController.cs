@@ -72,6 +72,23 @@ namespace API_Proyecto_2.Controllers
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 
+        // GET api/<ArticleController>/custodyArticles
+        [HttpGet("custodyArticles")]
+        public async Task<ActionResult<ServiceResponse<List<Article>>>> GetCustodyArticles()
+        {
+            var response = await this._articleService.GetCustodyArticles();
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+        // GET api/<ArticleController>/withdrawArticles
+        [HttpGet("withdrawArticles")]
+        public async Task<ActionResult<ServiceResponse<List<Article>>>> GetWithdrawArticles()
+        {
+            var response = await this._articleService.GetWithdrawArticles();
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+
         // GET api/<ArticleController>/clientCode/{clientCode}
         [HttpGet("clientCode/{clientCode}")]
         public async Task<ActionResult<ServiceResponse<List<Article>>>> GetArticlesByClientCode(long clientCode)

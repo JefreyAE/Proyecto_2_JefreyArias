@@ -83,6 +83,27 @@ namespace API_Proyecto_2.Services
             try
             {
                 var article = await this.appDbContext.Articles.
+                    Include(a => a.Client).
+                    OrderBy(a => a.ClientId)
+                    .ToListAsync();
+                response.Data = article;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<List<Article>>> GetCustodyArticles()
+        {
+            var response = new ServiceResponse<List<Article>>();
+
+            try
+            {
+                var article = await this.appDbContext.Articles.
                     Where(a => a.State == "Custodia").
                     Include(a => a.Client).
                     OrderBy(a => a.ClientId)
@@ -97,6 +118,30 @@ namespace API_Proyecto_2.Services
                 return response;
             }
         }
+
+        public async Task<ServiceResponse<List<Article>>> GetWithdrawArticles()
+        {
+            var response = new ServiceResponse<List<Article>>();
+
+            try
+            {
+                var article = await this.appDbContext.Articles.
+                    Where(a => a.State == "Retirado").
+                    Include(a => a.Client).
+                    OrderBy(a => a.ClientId)
+                    .ToListAsync();
+                response.Data = article;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+
 
         public async Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode)
         {
