@@ -60,10 +60,39 @@ namespace Front_Proyecto_2.Services
 
             return result;
         }
+        
+        public async Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode)
+        {
+        var response = await _httpClient.GetAsync("api/Article/clientCode/" + clientCode);
+        var json_response = await response.Content.ReadAsStringAsync();
+
+        var result = JsonConvert.DeserializeObject<ServiceResponse<List<Article>>>(json_response);
+
+        return result;
+        }
+
+        public async Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode)
+        {
+            var response = await _httpClient.GetAsync("api/Article/withdraw/" + clientCode);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<bool>>(json_response);
+
+            return result;
+        }
 
         public async Task<ServiceResponse<Article>> UpdateArticle(Article article)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(string date1, string date2)
+        {
+            var response = await _httpClient.GetAsync("api/Article/recallsDates/" + date1 + "/" + date2);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<List<Article>>>(json_response);
+            return result;
         }
     }
 }

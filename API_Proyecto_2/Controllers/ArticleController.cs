@@ -20,7 +20,6 @@ namespace API_Proyecto_2.Controllers
             _articleService = articleService;
         }
 
-
         // GET: api/<ArticleController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -44,11 +43,48 @@ namespace API_Proyecto_2.Controllers
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 
+        // POST api/<ArticleController>/
+        [HttpPost("recallsDates")]
+        public async Task<ActionResult<ServiceResponse<Article>>> RecallsDates([FromBody] RecallsDates recallsDates)
+        {
+            var response = await this._articleService.GetArticlesByRecallDate(recallsDates);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+
+        // GET api/<ArticleController>/recallsDates
+        [HttpGet("recallsDates/{date1}/{date2}")]
+        public async Task<ActionResult<ServiceResponse<List<Article>>>> RecallsDates(string date1, string date2)
+        {
+
+            RecallsDates recallsDates = new RecallsDates();
+            recallsDates.RecallDate1 = Convert.ToDateTime(date1);
+            recallsDates.RecallDate2 = Convert.ToDateTime(date2);
+            var response = await this._articleService.GetArticlesByRecallDate(recallsDates);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
         // GET api/<ArticleController>/allArticles
         [HttpGet("allArticles")]
         public async Task<ActionResult<ServiceResponse<List<Article>>>> GetAllArticles()
         {
             var response = await this._articleService.GetAllArticles();
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+        // GET api/<ArticleController>/clientCode/{clientCode}
+        [HttpGet("clientCode/{clientCode}")]
+        public async Task<ActionResult<ServiceResponse<List<Article>>>> GetArticlesByClientCode(long clientCode)
+        {
+            var response = await this._articleService.GetArticlesByClientCode(clientCode);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+        // GET api/<ArticleController>/clientCode/{clientCode}
+        [HttpGet("withdraw/{clientCode}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> WithdrawArticlesByClientCode(long clientCode)
+        {
+            var response = await this._articleService.WithdrawArticlesByClientCode(clientCode);
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 

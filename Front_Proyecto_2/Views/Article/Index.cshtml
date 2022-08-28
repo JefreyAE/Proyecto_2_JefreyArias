@@ -18,6 +18,9 @@
             <th>
                 Fecha de ingreso
             </th>
+             <th>
+                Nombre del cliente
+            </th>
             <th>
                 Precio
             </th>
@@ -47,6 +50,9 @@
             </td>
             <td>
                 @item.AdmissionDate.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)

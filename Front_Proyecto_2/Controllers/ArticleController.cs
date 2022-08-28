@@ -104,13 +104,13 @@ namespace Front_Proyecto_2.Controllers
             try
             {
                 Article article = new Article();
-                article.AdmissionDate =Convert.ToDateTime(collection["AdmissionDate"]);
+                article.AdmissionDate = Convert.ToDateTime(collection["AdmissionDate"]);
                 article.Price = Convert.ToDouble(collection["Price"]);
                 article.Weight = Convert.ToDouble(collection["Weight"]);
                 article.Description = collection["Description"];
                 article.ClientId = Convert.ToInt32(collection["ClientId"]);
                 article.DispatcherId = Convert.ToInt32(collection["DispatcherId"]);
-                article.State = "Almacenado";
+                article.State = "Custodia";
                 article.TrackingId = "";
 
                 var response = await this._articleService.AddArticle(article);
@@ -138,6 +138,120 @@ namespace Front_Proyecto_2.Controllers
             {
                 ViewData["Message_error"] = "Ocurrio un error al registrar los datos.";
                 await this.loadSelectValues();
+                return View();
+            }
+        }
+
+
+        public async Task<ActionResult> Collect()
+        {
+            if (!_protectionRoutesService.ProtectAction())
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            return View();
+        }
+
+        // POST: ArticleController/Collect
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Collect(IFormCollection collection)
+        {
+            if (!_protectionRoutesService.ProtectAction())
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            try
+            {
+                long clientCode = Convert.ToInt64(collection["Code"]);
+
+                var response = await this._articleService.GetArticlesByClientCode(clientCode);
+                if (response != null)
+                {
+                    if (response.Success == true)
+                    {
+                        ViewData["Message_success"] = "Los datos se han cargado correctamente.";
+                        HttpContext.Session.SetString("clientCode", Convert.ToString(clientCode));
+                        ViewBag.articles = response.Data;
+                        return View();
+                    }
+                    else
+                    {
+                        ViewData["Message_error"] = "No fue posible encontrar artículos" ;
+                        return View();
+                    }
+                }
+                ViewData["Message_error"] = "No se encontraron artículos relacionados.";
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message_error"] = "Ocurrio un error al cargar los datos.";
+                return View();
+            }
+        }
+        public async Task<ActionResult> Withdraw()
+        {
+            if (!_protectionRoutesService.ProtectAction())
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            long clientCode = Convert.ToInt64(HttpContext.Session.GetString("clientCode"));
+            var response = await this._articleService.WithdrawArticlesByClientCode(clientCode);
+
+            return RedirectToAction("Collect", "Article");
+        }
+
+        public async Task<ActionResult> RecallSearch()
+        {
+            if (!_protectionRoutesService.ProtectAction())
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            return View();
+        }
+
+        // POST: ArticleController/RecallSearch
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RecallSearch(IFormCollection collection)
+        {
+            if (!_protectionRoutesService.ProtectAction())
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            try
+            {
+                RecallsDates recallDates = new(Convert.ToDateTime(collection["RecallDate1"]), Convert.ToDateTime(collection["RecallDate2"]));
+                string date1 = Convert.ToDateTime(collection["RecallDate1"]).ToUniversalTime().ToString("u");
+                string date2 = Convert.ToDateTime(collection["RecallDate2"]).ToUniversalTime().ToString("u");
+                var response = await this._articleService.GetArticlesByRecallDate(date1, date2);
+                if (response != null)
+                {
+                    if (response.Success == true)
+                    {
+                        ViewData["Message_success"] = "Los datos se han cargado correctamente.";
+                        ViewBag.articles = response.Data;
+                        return View();
+                    }
+                    else
+                    {
+                        ViewData["Message_error"] = "No fue posible encontrar artículos";
+                        return View();
+                    }
+                }
+                ViewData["Message_error"] = "No se encontraron artículos.";
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message_error"] = "Ocurrio un error al cargar los datos.";
                 return View();
             }
         }

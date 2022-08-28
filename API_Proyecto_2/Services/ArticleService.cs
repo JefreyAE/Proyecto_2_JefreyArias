@@ -82,12 +82,66 @@ namespace API_Proyecto_2.Services
 
             try
             {
-                var article = await this.appDbContext.Articles.Select(a => a).ToListAsync();
+                var article = await this.appDbContext.Articles.
+                    Where(a => a.State == "Custodia").
+                    Include(a => a.Client).
+                    OrderBy(a => a.ClientId)
+                    .ToListAsync();
                 response.Data = article;
                 return response;
             }
             catch (Exception ex)
             {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode)
+        {
+            var response = new ServiceResponse<List<Article>>();
+            try
+            {
+                var client = await this.appDbContext.Clients.FirstOrDefaultAsync(c => c.Code == clientCode);
+                var articles = await this.appDbContext.Articles.
+                    Where(a => a.ClientId == client.Id && a.State == "Custodia")
+                    .ToListAsync();
+                response.Data = articles;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode)
+        {
+            var response = new ServiceResponse<bool>();
+            try
+            {
+                var client = await this.appDbContext.Clients.FirstOrDefaultAsync(c => c.Code == clientCode);
+                var articles = await this.appDbContext.Articles.
+                    Where(a => a.ClientId == client.Id && a.State == "Custodia")
+                    .ToListAsync();
+
+                foreach(var article in articles)
+                {
+                    article.State = "Retirado";
+                    article.RecallDate = DateTime.Now;
+                    this.appDbContext.Articles.Update(article);
+                    await this.appDbContext.SaveChangesAsync();
+                }
+
+                response.Data = true;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Data = false;
                 response.Success = false;
                 response.Message = ex.Message;
                 return response;
@@ -129,6 +183,25 @@ namespace API_Proyecto_2.Services
                     await this.appDbContext.SaveChangesAsync();
                     response.Data = article;
                 }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(RecallsDates recallDates)
+        {
+            var response = new ServiceResponse<List<Article>>();
+            try
+            {
+                var articles = await this.appDbContext.Articles.
+                    Where(a => a.RecallDate >= recallDates.RecallDate1 && a.RecallDate <= recallDates.RecallDate2)
+                    .ToListAsync();
+                response.Data = articles;
                 return response;
             }
             catch (Exception ex)

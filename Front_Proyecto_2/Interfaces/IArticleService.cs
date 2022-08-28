@@ -10,5 +10,8 @@ namespace Front_Proyecto_2.Interfaces
         Task<ServiceResponse<List<Article>>> GetAllArticles();
         Task<ServiceResponse<Article>> GetArticle(int id);
         Task<ServiceResponse<Article>> UpdateArticle(Article article);
+        Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode);
+        Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode);
+        Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(string date1, string date2);
     }
 }

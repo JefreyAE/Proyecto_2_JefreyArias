@@ -4,6 +4,7 @@ using API_Proyecto_2.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Proyecto_2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220822003314_Adding-recallDate-atributte")]
+    partial class AddingrecallDateatributte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,7 +146,7 @@ namespace API_Proyecto_2.Migrations
 
             modelBuilder.Entity("API_Proyecto_2.Models.Article", b =>
                 {
-                    b.HasOne("API_Proyecto_2.Models.Client", "Client")
+                    b.HasOne("API_Proyecto_2.Models.Client", null)
                         .WithMany("Articles")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -155,8 +157,6 @@ namespace API_Proyecto_2.Migrations
                         .HasForeignKey("DispatcherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("API_Proyecto_2.Models.Client", b =>

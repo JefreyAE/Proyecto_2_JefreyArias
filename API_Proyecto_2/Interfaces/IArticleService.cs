@@ -10,5 +10,8 @@ namespace API_Proyecto_2.Interfaces
         Task<ServiceResponse<Article>> GetArticle(int id);
         Task<ServiceResponse<List<Article>>> GetAllArticles();
         Task<ServiceResponse<Article>> UpdateArticle(Article article);
+        Task<ServiceResponse<List<Article>>> GetArticlesByClientCode(long clientCode);
+        Task<ServiceResponse<bool>> WithdrawArticlesByClientCode(long clientCode);
+        Task<ServiceResponse<List<Article>>> GetArticlesByRecallDate(RecallsDates recallDates);
     }
 }

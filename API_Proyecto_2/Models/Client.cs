@@ -8,8 +8,6 @@
         public int ClientPersonalId { get; set; }
         public DateTime Birthday { get; set; }
 
-        public List<Article>? Articles { get; set; }
-
         public Client() { }
         public Client(int id, string name, int clientPersonalId, DateTime birthday)
         {
